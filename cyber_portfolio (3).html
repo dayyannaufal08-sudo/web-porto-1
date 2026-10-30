@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dayyan Navid Kaysan Nawfal | Cyber Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Orbitron, Rajdhani & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            bg: '#06070d',
+                            card: 'rgba(18, 18, 32, 0.75)',
+                            cyan: '#00f3ff',
+                            magenta: '#ff0055',
+                            green: '#00ff66',
+                            purple: '#9d00ff',
+                            darker: '#030408'
+                        }
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #06070d;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Cyber Grid Overlay */
+        .bg-grid-pattern {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(0, 243, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 243, 255, 0.04) 1px, transparent 1px);
+        }
+
+        /* Glow Animations & Text Shadows */
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+        }
+        .glow-magenta {
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
+        }
+        .text-glow-cyan {
+            text-shadow: 0 0 12px rgba(0, 243, 255, 0.8);
+        }
+        .text-glow-magenta {
+            text-shadow: 0 0 12px rgba(255, 0, 85, 0.8);
+        }
+
+        /* HUD Frame Clips */
+        .cyber-clip {
+            clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+        }
+        .cyber-btn-clip {
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        /* Scanline Animation */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #06070d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f3ff;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff0055;
+        }
+    </style>
+</head>
+<body class="bg-cyber-bg text-gray-200 relative bg-grid-pattern min-h-screen">
+
+    <!-- Canvas Digital Matrix Animation -->
+    <canvas id="cyber-canvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-30"></canvas>
+
+    <!-- Navigation Bar -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-cyber-bg/85 backdrop-blur-md border-b border-cyber-cyan/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#home" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 border-2 border-cyber-cyan bg-cyber-cyan/10 flex items-center justify-center font-orbitron font-bold text-cyber-cyan group-hover:bg-cyber-cyan group-hover:text-black transition-all duration-300 rounded">
+                    DN
+                </div>
+                <span class="font-orbitron tracking-wider text-base sm:text-lg text-white font-extrabold group-hover:text-cyber-cyan transition-colors">
+                    DAYYAN<span class="text-cyber-cyan animate-pulse">_</span>
+                </span>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-8 font-rajdhani text-base font-semibold tracking-wider">
+                <a href="#about" class="text-gray-300 hover:text-cyber-cyan transition-colors flex items-center space-x-1">
+                    <span class="text-cyber-cyan">&gt;</span> <span>TENTANG</span>
+                </a>
+                <a href="#certifications" class="text-gray-300 hover:text-cyber-cyan transition-colors flex items-center space-x-1">
+                    <span class="text-cyber-cyan">&gt;</span> <span>SERTIFIKASI</span>
+                </a>
+                <a href="#skills" class="text-gray-300 hover:text-cyber-cyan transition-colors flex items-center space-x-1">
+                    <span class="text-cyber-cyan">&gt;</span> <span>KEAHLIAN</span>
+                </a>
+                <a href="#contact" class="px-5 py-2 border border-cyber-cyan text-cyber-cyan hover:bg-cyber-cyan hover:text-black font-orbitron text-xs tracking-widest font-bold transition-all duration-300 cyber-btn-clip glow-cyan">
+                    CONTACT
+                </a>
+            </nav>
+
+            <button id="menu-btn" class="md:hidden text-cyber-cyan text-2xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-cyber-darker border-b border-cyber-cyan/30 px-6 py-4 space-y-4 font-rajdhani text-lg">
+            <a href="#about" class="block text-gray-300 hover:text-cyber-cyan">&gt; TENTANG</a>
+            <a href="#certifications" class="block text-gray-300 hover:text-cyber-cyan">&gt; SERTIFIKASI</a>
+            <a href="#skills" class="block text-gray-300 hover:text-cyber-cyan">&gt; KEAHLIAN</a>
+            <a href="#contact" class="block text-cyber-cyan font-bold">&gt; HUBUNGI</a>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="relative z-10 pt-24">
+
+        <!-- Hero Section -->
+        <section id="about" class="min-h-[90vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Profile Image Canvas Container -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative group w-full max-w-sm">
+                        <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-cyber-cyan via-cyber-magenta to-cyber-green opacity-70 blur group-hover:opacity-100 transition duration-700"></div>
+                        
+                        <div class="relative bg-cyber-darker p-3 rounded-2xl border border-cyber-cyan/50 shadow-2xl">
+                            <!-- Tactical HUD Corner Overlays -->
+                            <div class="absolute top-0 left-0 w-6 h-6 border-t-2 border-l-2 border-cyber-cyan z-20"></div>
+                            <div class="absolute top-0 right-0 w-6 h-6 border-t-2 border-r-2 border-cyber-cyan z-20"></div>
+                            <div class="absolute bottom-0 left-0 w-6 h-6 border-b-2 border-l-2 border-cyber-cyan z-20"></div>
+                            <div class="absolute bottom-0 right-0 w-6 h-6 border-b-2 border-r-2 border-cyber-cyan z-20"></div>
+
+                            <div class="overflow-hidden rounded-xl h-[440px] relative bg-black/40">
+                                <!-- Dynamic Render Canvas for Real Profile Photo -->
+                                <canvas id="profile-photo-canvas" class="w-full h-full object-cover rounded-xl"></canvas>
+                                
+                                <div class="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-cyber-cyan/30 text-[10px] font-mono text-cyber-cyan">
+                                    USER_ID: DAYYAN_01
+                                </div>
+
+                                <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-cyber-bg via-cyber-bg/80 to-transparent p-4">
+                                    <div class="inline-flex items-center space-x-2 bg-cyber-bg/90 border border-cyber-green px-3 py-1 rounded-full text-xs font-mono text-cyber-green">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-cyber-green animate-ping"></span>
+                                        <span>SYSTEM ONLINE</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Personal Bio Header -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-block px-4 py-1.5 border border-cyber-cyan/40 bg-cyber-cyan/10 rounded-full font-mono text-xs text-cyber-cyan tracking-widest uppercase">
+                        AI Tech Enthusiast & Developer
+                    </div>
+
+                    <h1 class="font-orbitron text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+                        DAYYAN NAVID <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-cyan via-white to-cyber-magenta text-glow-cyan">
+                            KAYSAN NAWFAL
+                        </span>
+                    </h1>
+
+                    <p class="text-gray-300 text-base sm:text-lg leading-relaxed font-light">
+                        Pengembang software dan akademisi teknologi dengan spesialisasi pada bahasa <strong class="text-cyber-cyan font-mono">C++</strong> & <strong class="text-cyber-green font-mono">Python</strong>, integrasi sistem AI Generatif <strong class="text-cyber-cyan">Google Gemini</strong>, serta optimalisasi ekosistem pendidikan digital.
+                    </p>
+
+                    <!-- Profile Stats -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-cyber-cyan/20">
+                        <div class="bg-cyber-card p-4 rounded-xl border border-cyber-cyan/20 backdrop-blur-md">
+                            <div class="font-orbitron text-2xl font-bold text-cyber-cyan">2+</div>
+                            <div class="text-xs font-mono text-gray-400 uppercase mt-1">Sertifikat Google</div>
+                        </div>
+                        <div class="bg-cyber-card p-4 rounded-xl border border-cyber-magenta/20 backdrop-blur-md">
+                            <div class="font-orbitron text-2xl font-bold text-cyber-magenta">C++ / Python</div>
+                            <div class="text-xs font-mono text-gray-400 uppercase mt-1">Bahasa Kode</div>
+                        </div>
+                        <div class="bg-cyber-card p-4 rounded-xl border border-cyber-green/20 backdrop-blur-md">
+                            <div class="font-orbitron text-2xl font-bold text-cyber-green">100%</div>
+                            <div class="text-xs font-mono text-gray-400 uppercase mt-1">Kredensial Aktif</div>
+                        </div>
+                    </div>
+
+                    <!-- CTA Action Buttons -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#certifications" class="px-6 py-3 bg-cyber-cyan text-black font-orbitron font-bold text-xs tracking-wider hover:bg-white transition-all duration-300 cyber-btn-clip glow-cyan">
+                            SERTIFIKASI <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/dayyan-navid-kaysan-nawfal-6904a2441?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="px-5 py-3 border border-cyber-cyan/60 text-cyber-cyan hover:bg-cyber-cyan hover:text-black font-mono text-xs transition duration-300 rounded-lg flex items-center space-x-2">
+                            <i class="fa-brands fa-linkedin text-base"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://instagram.com/kaiisans_" target="_blank" class="px-5 py-3 border border-cyber-magenta/60 text-cyber-magenta hover:bg-cyber-magenta hover:text-white font-mono text-xs transition duration-300 rounded-lg flex items-center space-x-2">
+                            <i class="fa-brands fa-instagram text-base"></i>
+                            <span>@kaiisans_</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-cyber-cyan/15 bg-cyber-darker/50">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="font-orbitron text-3xl sm:text-4xl font-bold text-white tracking-wider">
+                        <span class="text-cyber-cyan">&lt;</span> SERTIFIKASI RESMI <span class="text-cyber-cyan">&gt;</span>
+                    </h2>
+                    <p class="text-gray-400 mt-2 font-mono text-sm">Hasil Verifikasi Pelatihan Google Gemini Academy</p>
+                    <div class="w-24 h-1 bg-gradient-to-r from-cyber-cyan to-cyber-magenta mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Certificate Card 1 -->
+                    <div class="bg-cyber-card rounded-2xl border border-cyber-cyan/40 p-6 backdrop-blur-md flex flex-col justify-between hover:border-cyber-cyan transition duration-300 hover:shadow-[0_0_25px_rgba(0,243,255,0.25)]">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-cyber-cyan/10 border border-cyber-cyan text-cyber-cyan text-[11px] font-mono px-3 py-1 rounded-full">
+                                    GOOGLE FOR EDUCATION
+                                </span>
+                                <span class="text-xs font-mono text-cyber-green flex items-center"><i class="fa-solid fa-circle-check mr-1.5"></i> Terverifikasi</span>
+                            </div>
+
+                            <h3 class="font-orbitron text-xl font-bold text-white mb-3">
+                                Pengajar Gemini (Gemini Certified Faculty)
+                            </h3>
+
+                            <p class="text-gray-300 text-sm leading-relaxed mb-6 font-light">
+                                Menunjukkan pemahaman komprehensif mengenai penerapan Google Gemini AI untuk produktivitas riset, desain kurikulum interaktif, dan optimalisasi sistem pembelajaran digital.
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-gray-800/80 space-y-2">
+                            <div class="flex justify-between font-mono text-xs text-gray-400">
+                                <span>Email Pelatih / Trainer:</span>
+                                <span class="text-cyber-cyan">rahadianbisma@unesa.ac.id</span>
+                            </div>
+                            <button onclick="openModal('gemini')" class="w-full mt-2 py-2.5 bg-cyber-cyan/10 border border-cyber-cyan/50 text-cyber-cyan hover:bg-cyber-cyan hover:text-black font-orbitron text-xs font-bold transition duration-300 rounded-lg">
+                                LIHAT KREDENSIAL LENGKAP
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Certificate Card 2 -->
+                    <div class="bg-cyber-card rounded-2xl border border-cyber-magenta/40 p-6 backdrop-blur-md flex flex-col justify-between hover:border-cyber-magenta transition duration-300 hover:shadow-[0_0_25px_rgba(255,0,85,0.25)]">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="bg-cyber-magenta/10 border border-cyber-magenta text-cyber-magenta text-[11px] font-mono px-3 py-1 rounded-full">
+                                    GOOGLE CERTIFIED
+                                </span>
+                                <span class="text-xs font-mono text-cyber-green flex items-center"><i class="fa-solid fa-circle-check mr-1.5"></i> Terverifikasi</span>
+                            </div>
+
+                            <h3 class="font-orbitron text-xl font-bold text-white mb-3">
+                                Pendidik Level 1 (Certified Educator Level 1)
+                            </h3>
+
+                            <p class="text-gray-300 text-sm leading-relaxed mb-6 font-light">
+                                Membuktikan kompetensi teruji dalam mengoperasikan alat-alat utama Google Workspace for Education secara efektif, intuitif, dan kolaboratif.
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-gray-800/80 space-y-2">
+                            <div class="flex justify-between font-mono text-xs text-gray-400">
+                                <span>Email Pelatih / Trainer:</span>
+                                <span class="text-cyber-magenta">rahadianbisma@unesa.ac.id</span>
+                            </div>
+                            <button onclick="openModal('educator')" class="w-full mt-2 py-2.5 bg-cyber-magenta/10 border border-cyber-magenta/50 text-cyber-magenta hover:bg-cyber-magenta hover:text-white font-orbitron text-xs font-bold transition duration-300 rounded-lg">
+                                LIHAT KREDENSIAL LENGKAP
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Languages & Technical Skills Section -->
+        <section id="skills" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-cyber-cyan/15">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="font-orbitron text-3xl sm:text-4xl font-bold text-white tracking-wider">
+                        <span class="text-cyber-green">&lt;</span> BAHASA & KEAHLIAN <span class="text-cyber-green">&gt;</span>
+                    </h2>
+                    <p class="text-gray-400 mt-2 font-mono text-sm">Kemampuan Pemrograman, Komunikasi & Alat Teknologi</p>
+                    <div class="w-24 h-1 bg-gradient-to-r from-cyber-green to-cyber-cyan mx-auto mt-4 rounded-full"></div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    
+                    <!-- Languages Box -->
+                    <div class="lg:col-span-6 bg-cyber-card rounded-2xl border border-cyber-cyan/30 p-6 backdrop-blur-md">
+                        <h3 class="font-orbitron text-xl font-bold text-white mb-6 flex items-center">
+                            <i class="fa-solid fa-code text-cyber-cyan mr-3"></i> Pemrograman & Bahasa
+                        </h3>
+
+                        <div class="space-y-6">
+                            <!-- C++ -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2 font-mono text-sm">
+                                    <span class="text-white font-semibold flex items-center"><i class="fa-solid fa-terminal text-cyber-cyan mr-2"></i> C++</span>
+                                    <span class="text-cyber-cyan">Pemrograman Sistem & Logika</span>
+                                </div>
+                                <div class="w-full bg-cyber-darker h-2.5 rounded-full border border-cyber-cyan/30 overflow-hidden">
+                                    <div class="bg-cyber-cyan h-full w-[88%] rounded-full glow-cyan"></div>
+                                </div>
+                            </div>
+
+                            <!-- Python -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2 font-mono text-sm">
+                                    <span class="text-white font-semibold flex items-center"><i class="fa-brands fa-python text-cyber-green mr-2"></i> Python</span>
+                                    <span class="text-cyber-green">AI & Scripting Otomatisasi</span>
+                                </div>
+                                <div class="w-full bg-cyber-darker h-2.5 rounded-full border border-cyber-green/30 overflow-hidden">
+                                    <div class="bg-cyber-green h-full w-[90%] rounded-full"></div>
+                                </div>
+                            </div>
+
+                            <!-- Indonesian -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2 font-mono text-sm">
+                                    <span class="text-white font-semibold flex items-center"><i class="fa-solid fa-language text-cyber-magenta mr-2"></i> Bahasa Indonesia</span>
+                                    <span class="text-cyber-magenta">Penutur Asli (Native)</span>
+                                </div>
+                                <div class="w-full bg-cyber-darker h-2.5 rounded-full border border-cyber-magenta/30 overflow-hidden">
+                                    <div class="bg-cyber-magenta h-full w-[100%] rounded-full glow-magenta"></div>
+                                </div>
+                            </div>
+
+                            <!-- English -->
+                            <div>
+                                <div class="flex justify-between items-center mb-2 font-mono text-sm">
+                                    <span class="text-white font-semibold flex items-center"><i class="fa-solid fa-globe text-cyber-cyan mr-2"></i> Bahasa Inggris</span>
+                                    <span class="text-cyber-cyan">Kemampuan Tingkat Mahir</span>
+                                </div>
+                                <div class="w-full bg-cyber-darker h-2.5 rounded-full border border-cyber-cyan/30 overflow-hidden">
+                                    <div class="bg-cyber-cyan h-full w-[85%] rounded-full glow-cyan"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Capabilities -->
+                    <div class="lg:col-span-6 bg-cyber-card rounded-2xl border border-cyber-magenta/30 p-6 backdrop-blur-md flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-orbitron text-xl font-bold text-white mb-6 flex items-center">
+                                <i class="fa-solid fa-microchip text-cyber-magenta mr-3"></i> Domain Keahlian Utama
+                            </h3>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="p-4 bg-cyber-darker/80 border border-cyber-cyan/20 rounded-xl">
+                                    <div class="text-cyber-cyan text-lg mb-1"><i class="fa-solid fa-robot"></i></div>
+                                    <h4 class="font-orbitron text-sm font-bold text-white">Google Gemini AI</h4>
+                                    <p class="text-xs text-gray-400 mt-1">Prompt engineering & integrasi alur kerja kecerdasan buatan.</p>
+                                </div>
+
+                                <div class="p-4 bg-cyber-darker/80 border border-cyber-magenta/20 rounded-xl">
+                                    <div class="text-cyber-magenta text-lg mb-1"><i class="fa-solid fa-laptop-code"></i></div>
+                                    <h4 class="font-orbitron text-sm font-bold text-white">C++ Development</h4>
+                                    <p class="text-xs text-gray-400 mt-1">Pemahaman struktur data dan algoritma efisien.</p>
+                                </div>
+
+                                <div class="p-4 bg-cyber-darker/80 border border-cyber-green/20 rounded-xl">
+                                    <div class="text-cyber-green text-lg mb-1"><i class="fa-solid fa-gears"></i></div>
+                                    <h4 class="font-orbitron text-sm font-bold text-white">Python Scripting</h4>
+                                    <p class="text-xs text-gray-400 mt-1">Otomatisasi data, pemrosesan teks, dan integrasi API.</p>
+                                </div>
+
+                                <div class="p-4 bg-cyber-darker/80 border border-cyber-purple/20 rounded-xl">
+                                    <div class="text-cyber-purple text-lg mb-1"><i class="fa-solid fa-graduation-cap"></i></div>
+                                    <h4 class="font-orbitron text-sm font-bold text-white">Google Workspace</h4>
+                                    <p class="text-xs text-gray-400 mt-1">Manajemen alat pendidik dan kolaborasi produktif.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 p-3.5 bg-cyber-darker border border-cyber-cyan/30 rounded-xl font-mono text-xs text-gray-400">
+                            <span class="text-cyber-cyan">&gt; SYSTEM_NOTE:</span> Siap untuk pengembangan proyek rekayasa perangkat lunak dan riset AI.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer / Contact Section -->
+        <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 border-t border-cyber-cyan/20 bg-cyber-darker relative">
+            <div class="max-w-4xl mx-auto text-center space-y-8">
+                <h2 class="font-orbitron text-3xl sm:text-4xl font-bold text-white tracking-wider">
+                    <span class="text-cyber-cyan">HUBUNGI</span> <span class="text-cyber-magenta">DAYYAN</span>
+                </h2>
+                
+                <p class="text-gray-400 font-light max-w-xl mx-auto">
+                    Mari terhubung untuk peluang kolaborasi proyek rekayasa perangkat lunak C++, Python, maupun integrasi teknologi AI.
+                </p>
+
+                <!-- Social & Email Badges -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="mailto:rahadianbisma@unesa.ac.id" class="px-6 py-3 bg-cyber-card border border-cyber-cyan text-cyber-cyan rounded-xl hover:bg-cyber-cyan hover:text-black font-mono text-sm transition duration-300 flex items-center space-x-2">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>rahadianbisma@unesa.ac.id</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/dayyan-navid-kaysan-nawfal-6904a2441?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="px-6 py-3 bg-cyber-card border border-cyber-cyan text-cyber-cyan rounded-xl hover:bg-cyber-cyan hover:text-black font-mono text-sm transition duration-300 flex items-center space-x-2">
+                        <i class="fa-brands fa-linkedin"></i>
+                        <span>LinkedIn Profile</span>
+                    </a>
+                    <a href="https://instagram.com/kaiisans_" target="_blank" class="px-6 py-3 bg-cyber-card border border-cyber-magenta text-cyber-magenta rounded-xl hover:bg-cyber-magenta hover:text-white font-mono text-sm transition duration-300 flex items-center space-x-2">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>@kaiisans_</span>
+                    </a>
+                </div>
+
+                <div class="pt-12 border-t border-gray-800 text-xs font-mono text-gray-500">
+                    &copy; 2026 DAYYAN NAVID KAYSAN NAWFAL. ALL RIGHTS RESERVED.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Certificate Kredensial Details -->
+    <div id="cert-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-cyber-cyan rounded-2xl max-w-lg w-full p-6 relative shadow-[0_0_35px_rgba(0,243,255,0.3)]">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-cyber-cyan text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div id="modal-content" class="space-y-4">
+                <!-- Dynamic Content via JS -->
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-gray-800 flex justify-end">
+                <button onclick="closeModal()" class="px-5 py-2 bg-cyber-cyan text-black font-orbitron text-xs font-bold rounded hover:bg-white transition-colors">
+                    TUTUP
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Section -->
+    <script>
+        // Render Profile Photo directly onto Canvas from User Image
+        const photoCanvas = document.getElementById('profile-photo-canvas');
+        const pCtx = photoCanvas.getContext('2d');
+        const userImg = new Image();
+        userImg.crossOrigin = "anonymous";
+        userImg.src = "https://lh3.googleusercontent.com/d/1Xy_JpE_021sI-Z11c_pX5u0Oa7uJq1i8";
+
+        userImg.onload = function() {
+            photoCanvas.width = 400;
+            photoCanvas.height = 500;
+            
+            // Draw original user image with mirror selfie correction
+            pCtx.save();
+            pCtx.drawImage(userImg, 0, 0, photoCanvas.width, photoCanvas.height);
+            pCtx.restore();
+
+            // Overlay subtle Cyber scanline & vignette effect
+            pCtx.fillStyle = 'rgba(0, 243, 255, 0.05)';
+            pCtx.fillRect(0, 0, photoCanvas.width, photoCanvas.height);
+        };
+
+        userImg.onerror = function() {
+            // Fallback if network blocks external photo link
+            photoCanvas.width = 400;
+            photoCanvas.height = 500;
+            pCtx.fillStyle = '#121220';
+            pCtx.fillRect(0, 0, photoCanvas.width, photoCanvas.height);
+            pCtx.fillStyle = '#00f3ff';
+            pCtx.font = '20px Orbitron';
+            pCtx.textAlign = 'center';
+            pCtx.fillText('DAYYAN NAVID', 200, 250);
+        };
+
+        // Digital Matrix Rain Background Animation
+        const canvas = document.getElementById('cyber-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const matrixChars = 'C++ PYTHON GEMINI GOOGLE 010101 DAYYAN';
+        const fontSize = 13;
+        let columns = Math.floor(canvas.width / fontSize);
+        let drops = Array(columns).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(6, 7, 13, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#00f3ff';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrixChars.charAt(Math.floor(Math.random() * matrixChars.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 45);
+
+        // Mobile Nav Toggle
+        document.getElementById('menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+
+        // Certificate Details Modal Logic
+        const certs = {
+            gemini: {
+                title: "Pengajar Gemini (Gemini Certified Faculty)",
+                issuer: "Google for Education",
+                desc: "Sertifikasi kompetensi dalam memanfaatkan platform Google Gemini AI untuk interaksi akademis, penelitian, dan penyusunan materi berbasis kecerdasan buatan.",
+                trainer: "rahadianbisma@unesa.ac.id"
+            },
+            educator: {
+                title: "Certified Educator Level 1",
+                issuer: "Google for Education",
+                desc: "Validasi resmi penguasaan alat-alat Google Workspace for Education untuk mendukung efisiensi kolaborasi pembelajaran.",
+                trainer: "rahadianbisma@unesa.ac.id"
+            }
+        };
+
+        function openModal(key) {
+            const data = certs[key];
+            if (!data) return;
+
+            document.getElementById('modal-content').innerHTML = `
+                <div class="border-b border-cyber-cyan/30 pb-3">
+                    <span class="text-xs font-mono text-cyber-cyan">${data.issuer}</span>
+                    <h3 class="font-orbitron font-bold text-lg text-white mt-1">${data.title}</h3>
+                </div>
+                <p class="text-sm text-gray-300 font-light leading-relaxed">${data.desc}</p>
+                <div class="bg-cyber-darker p-3 rounded-xl border border-gray-800 text-xs font-mono space-y-1">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Email Trainer:</span>
+                        <span class="text-cyber-green">${data.trainer}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Status:</span>
+                        <span class="text-cyber-cyan">Terverifikasi & Aktif</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('cert-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('cert-modal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
